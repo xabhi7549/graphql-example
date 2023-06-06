@@ -1,16 +1,17 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+import strawberry
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+@strawberry.type
+class User:
+    name: str
+    age: int
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+@strawberry.type
+class Query:
+    @strawberry.field
+    def user(self) -> User:
+        return User(name="Patrick", age=100)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+schema = strawberry.Schema(query=Query)
