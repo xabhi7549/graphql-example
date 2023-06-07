@@ -1,17 +1,20 @@
-import strawberry
+from ariadne import ObjectType, gql, make_executable_schema
+from ariadne.asgi import GraphQL
 
+type_defs = gql(
+    """
+    type Query {
+        hello: String!
+    }
+    """
+)
 
-@strawberry.type
-class User:
-    name: str
-    age: int
+query_type = ObjectType("Query")
 
+@query_type.field("hello")
+def resolve_hello(*_):
+    return "Hello world!"
 
-@strawberry.type
-class Query:
-    @strawberry.field
-    def user(self) -> User:
-        return User(name="Patrick", age=100)
+schema = make_executable_schema(type_defs, query_type)
 
-
-schema = strawberry.Schema(query=Query)
+app = GraphQL(schema, debug=True)
