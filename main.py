@@ -1,20 +1,8 @@
-from ariadne import ObjectType, gql, make_executable_schema
+from ariadne import make_executable_schema, load_schema_from_path
 from ariadne.asgi import GraphQL
 
-type_defs = gql(
-    """
-    type Query {
-        hello: String!
-    }
-    """
-)
+from resolvers import query, mutation
 
-query_type = ObjectType("Query")
-
-@query_type.field("hello")
-def resolve_hello(*_):
-    return "Hello world!"
-
-schema = make_executable_schema(type_defs, query_type)
+schema = make_executable_schema(load_schema_from_path("schema.graphql"), query, mutation)
 
 app = GraphQL(schema, debug=True)

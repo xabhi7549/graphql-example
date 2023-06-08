@@ -1,13 +1,18 @@
 # graphql-example
 
-
 graphql example using ariadne
 
-# First Install These
+# Update requirements.txt
 
-`pip install ariadne uvicorn
+`pip freeze > requirements.txt
 `
 
-# To run 
+# DB Migration
 
-`uvicorn main:app `
+`docker-compose run app alembic revision --autogenerate -m "New Migration"
+docker-compose run app alembic upgrade head
+`
+
+# To run
+
+`docker-compose up `
